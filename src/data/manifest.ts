@@ -2864,72 +2864,84 @@ export const media: MediaItem[] = [
     "src": "/media/films/film-01.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-02.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-03.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/__l5e/assets-v1/2c279374-e6c7-49d5-ae97-8a2dee766981/film-04.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-05.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-06.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/__l5e/assets-v1/3b89b157-886d-46df-b0d0-43cd0f9f34cf/film-07.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-08.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-09.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-10.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-11.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   },
   {
     "src": "/media/films/film-12.mp4",
     "type": "video",
     "alt": "Crafted Comforts — atelier in motion",
-    "category": "Films"
+    "category": "Films",
+    "featured": false
   }
 ];
