@@ -3,27 +3,21 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Crafted Comforts — Spaces to Sanctuaries" },
+      { name: "description", content: "Crafted Comforts — luxury interior design-and-build studio in Bengaluru." },
+      { property: "og:title", content: "Crafted Comforts — Spaces to Sanctuaries" },
+      { property: "og:description", content: "Crafted Comforts — luxury interior design-and-build studio in Bengaluru." },
     ],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="flex min-h-screen items-center justify-center bg-background px-6">
+      <h1 className="text-center text-3xl font-medium tracking-tight text-foreground md:text-5xl">
+        Crafted Comforts — Spaces to Sanctuaries
+      </h1>
+    </main>
   );
 }
