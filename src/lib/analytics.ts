@@ -52,12 +52,13 @@ export function initAnalytics() {
 
     // GA4
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag() {
+    const gtag: any = function gtag() {
       // eslint-disable-next-line prefer-rest-params
       window.dataLayer!.push(arguments);
-    } as any;
-    window.gtag("js", new Date());
-    window.gtag("config", SITE.ga4Id, { anonymize_ip: true });
+    };
+    window.gtag = gtag;
+    gtag("js", new Date());
+    gtag("config", SITE.ga4Id, { anonymize_ip: true });
     void loadScript(`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4Id}`);
 
     // Clarity
