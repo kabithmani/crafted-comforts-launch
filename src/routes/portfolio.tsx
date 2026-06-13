@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { PageShell } from "@/components/site/PageShell";
-import { Reveal } from "@/components/site/Reveal";
 import { Lightbox } from "@/components/site/Lightbox";
 import { media, type Category } from "@/data/manifest";
 
@@ -135,6 +134,3 @@ function PortfolioPage() {
     </PageShell>
   );
 }
-
-// Use Reveal indirectly (keep tree-shake-friendly import to prove dep is wired)
-export const _r = Reveal;
