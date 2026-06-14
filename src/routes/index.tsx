@@ -124,7 +124,7 @@ function Index() {
           {[
             { v: 15, s: "+", label: "Years of craft" },
             { v: 9, s: "", label: "In-house factories" },
-            { v: 50, s: "+", label: "Projects delivered" },
+            { v: 500, s: "+", label: "Projects delivered" },
             { v: 6, s: "", label: "Cities" },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 80} className="">
