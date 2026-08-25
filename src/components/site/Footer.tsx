@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Merkaba } from "./Merkaba";
 import { SITE, telHref } from "@/lib/site-config";
 
-export function Footer() {
+export function Footer({ disclaimer = false }: { disclaimer?: boolean }) {
   return (
     <footer className="relative bg-ink text-ivory overflow-hidden">
       <div
