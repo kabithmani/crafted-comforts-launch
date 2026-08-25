@@ -14,7 +14,7 @@ export function PageShell({
       </a>
       <Header transparent={transparentHeader} />
       <main id="main" className="page-enter">{children}</main>
-      <Footer />
+      <Footer disclaimer={portfolioDisclaimer} />
       <StickyBar />
       <CookieBar />
     </>
