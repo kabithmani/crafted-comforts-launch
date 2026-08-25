@@ -15,8 +15,11 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ManufacturingRouteImport } from './routes/manufacturing'
 import { Route as CancellationRouteImport } from './routes/cancellation'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicPortfolioMediaSplatRouteImport } from './routes/api/public/portfolio-media/$'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -48,6 +51,16 @@ const CancellationRoute = CancellationRouteImport.update({
   path: '/cancellation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -58,80 +71,107 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPortfolioMediaSplatRoute =
+  ApiPublicPortfolioMediaSplatRouteImport.update({
+    id: '/api/public/portfolio-media/$',
+    path: '/api/public/portfolio-media/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/cancellation': typeof CancellationRoute
   '/manufacturing': typeof ManufacturingRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/api/public/portfolio-media/$': typeof ApiPublicPortfolioMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/cancellation': typeof CancellationRoute
   '/manufacturing': typeof ManufacturingRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/api/public/portfolio-media/$': typeof ApiPublicPortfolioMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
   '/cancellation': typeof CancellationRoute
   '/manufacturing': typeof ManufacturingRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/api/public/portfolio-media/$': typeof ApiPublicPortfolioMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
+    | '/auth'
     | '/cancellation'
     | '/manufacturing'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/api/public/portfolio-media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/admin'
+    | '/auth'
     | '/cancellation'
     | '/manufacturing'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/api/public/portfolio-media/$'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
+    | '/auth'
     | '/cancellation'
     | '/manufacturing'
     | '/portfolio'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/api/public/portfolio-media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
   CancellationRoute: typeof CancellationRoute
   ManufacturingRoute: typeof ManufacturingRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  ApiPublicPortfolioMediaSplatRoute: typeof ApiPublicPortfolioMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -178,6 +218,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CancellationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -192,18 +246,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/portfolio-media/$': {
+      id: '/api/public/portfolio-media/$'
+      path: '/api/public/portfolio-media/$'
+      fullPath: '/api/public/portfolio-media/$'
+      preLoaderRoute: typeof ApiPublicPortfolioMediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
   CancellationRoute: CancellationRoute,
   ManufacturingRoute: ManufacturingRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  ApiPublicPortfolioMediaSplatRoute: ApiPublicPortfolioMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
