@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { PageShell } from "@/components/site/PageShell";
 import { Lightbox } from "@/components/site/Lightbox";
-import { media, type Category } from "@/data/manifest";
+import { media, type Category, type MediaItem } from "@/data/manifest";
 
 const TABS: { key: Category; label: string }[] = [
   { key: "All", label: "All" },
@@ -38,19 +38,145 @@ export const Route = createFileRoute("/portfolio")({
   component: PortfolioPage,
 });
 
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 12;
+
+type ProjectGroup = {
+  key: string;
+  project?: string;
+  location?: string;
+  desc?: string;
+  category: Category;
+  items: MediaItem[];
+  collage: MediaItem[];
+};
+
+/** Pick up to `n` visually diverse items — spread evenly across the set. */
+function spread(items: MediaItem[], n: number) {
+  if (items.length <= n) return items;
+  const step = items.length / n;
+  return Array.from({ length: n }, (_, i) => items[Math.floor(i * step)]);
+}
+
+function buildGroups(base: MediaItem[]): ProjectGroup[] {
+  const map = new Map<string, ProjectGroup>();
+  const loose: MediaItem[] = [];
+  for (const m of base) {
+    if (!m.project) { loose.push(m); continue; }
+    let g = map.get(m.project);
+    if (!g) {
+      g = {
+        key: m.project,
+        project: m.project,
+        location: m.location,
+        desc: m.desc,
+        category: m.category,
+        items: [],
+        collage: [],
+      };
+      map.set(m.project, g);
+    }
+    g.items.push(m);
+  }
+
+  // Fold single-frame projects and unnamed media into 4-up "selected works" collages.
+  const groups: ProjectGroup[] = [];
+  const leftovers: MediaItem[] = [...loose];
+  for (const g of map.values()) {
+    if (g.items.length < 3) leftovers.push(...g.items);
+    else groups.push(g);
+  }
+  for (let i = 0; i < leftovers.length; i += 4) {
+    const chunk = leftovers.slice(i, i + 4);
+    if (!chunk.length) break;
+    groups.push({
+      key: `selected-${chunk[0].src}`,
+      project: "Selected Works",
+      location: chunk[0].location,
+      desc: "A set of details and finishes from completed Crafted Comforts projects.",
+      category: chunk[0].category,
+      items: chunk,
+      collage: [],
+    });
+  }
+
+  for (const g of groups) {
+    const images = g.items.filter((i) => i.type === "image");
+    const pool = images.length >= 3 ? images : g.items;
+    g.collage = spread(pool, Math.min(4, pool.length));
+  }
+  return groups;
+}
+
+function Tile({ item, className, priority }: { item: MediaItem; className?: string; priority?: boolean }) {
+  return (
+    <div className={`relative overflow-hidden bg-[color:var(--ivory)] ${className ?? ""}`}>
+      {item.type === "video" ? (
+        <>
+          <video src={item.src} muted loop playsInline preload="metadata" className="w-full h-full object-cover zoom" />
+          <span className="absolute inset-0 flex items-center justify-center">
+            <span className="w-10 h-10 rounded-full border border-[color:var(--brass-light)]/80 bg-[color:var(--ink)]/40 flex items-center justify-center text-[color:var(--brass-light)] text-sm">▶</span>
+          </span>
+        </>
+      ) : (
+        <img
+          src={item.src}
+          alt={item.alt}
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
+          className="w-full h-full object-cover zoom"
+        />
+      )}
+    </div>
+  );
+}
+
+function Collage({ items, priority }: { items: MediaItem[]; priority?: boolean }) {
+  const n = items.length;
+
+  if (n >= 4) {
+    return (
+      <div className="grid grid-cols-2 grid-rows-2 gap-0 aspect-[4/3]">
+        {items.slice(0, 4).map((it, i) => (
+          <Tile key={it.src} item={it} priority={priority && i === 0} />
+        ))}
+      </div>
+    );
+  }
+  if (n === 3) {
+    return (
+      <div className="grid grid-cols-3 grid-rows-2 gap-0 aspect-[4/3]">
+        <Tile item={items[0]} className="col-span-2 row-span-2" priority={priority} />
+        <Tile item={items[1]} />
+        <Tile item={items[2]} />
+      </div>
+    );
+  }
+  if (n === 2) {
+    return (
+      <div className="grid grid-cols-2 gap-0 aspect-[4/3]">
+        <Tile item={items[0]} priority={priority} />
+        <Tile item={items[1]} />
+      </div>
+    );
+  }
+  return (
+    <div className="aspect-[4/3]">
+      <Tile item={items[0]} priority={priority} />
+    </div>
+  );
+}
 
 function PortfolioPage() {
   const [tab, setTab] = useState<Category>("All");
   const [visible, setVisible] = useState(PAGE_SIZE);
-  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [lightbox, setLightbox] = useState<{ items: MediaItem[]; index: number } | null>(null);
 
-  const items = useMemo(() => {
-    // Exclude featured items from grids (no duplicate rule)
+  const groups = useMemo(() => {
     const base = media.filter((m) => !m.featured);
-    if (tab === "All") return base;
-    if (tab === "Films") return base.filter((m) => m.type === "video");
-    return base.filter((m) => m.category === tab);
+    let filtered = base;
+    if (tab === "Films") filtered = base.filter((m) => m.type === "video");
+    else if (tab !== "All") filtered = base.filter((m) => m.category === tab);
+    return buildGroups(filtered);
   }, [tab]);
 
   useEffect(() => { setVisible(PAGE_SIZE); }, [tab]);
@@ -58,17 +184,17 @@ function PortfolioPage() {
   useEffect(() => {
     const onScroll = () => {
       if (window.innerHeight + window.scrollY > document.body.offsetHeight - 800) {
-        setVisible((v) => Math.min(v + PAGE_SIZE, items.length));
+        setVisible((v) => Math.min(v + PAGE_SIZE, groups.length));
       }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [items.length]);
+  }, [groups.length]);
 
-  const shown = items.slice(0, visible);
+  const shown = groups.slice(0, visible);
 
   return (
-    <PageShell>
+    <PageShell portfolioDisclaimer>
       <section className="bg-[color:var(--paper)] pt-28 md:pt-36 pb-10">
         <div className="max-w-[1200px] mx-auto px-5 md:px-8">
           <p className="overline">Portfolio</p>
@@ -95,42 +221,37 @@ function PortfolioPage() {
 
       <section className="bg-[color:var(--paper)] pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-5 md:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {shown.map((m, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {shown.map((g, gi) => (
               <button
-                key={m.src}
-                onClick={() => setLightboxIdx(i)}
-                className="group block text-left lift bg-[color:var(--ivory)] overflow-hidden"
-                aria-label={m.alt}
+                key={g.key}
+                onClick={() => setLightbox({ items: g.items, index: 0 })}
+                className="group block text-left lift bg-[color:var(--ivory)] overflow-hidden w-full"
+                aria-label={g.project ?? g.items[0].alt}
               >
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  {m.type === "video" ? (
-                    <>
-                      <video src={m.src} muted loop playsInline preload="none" className="w-full h-full object-cover zoom" />
-                      <span className="absolute inset-0 flex items-center justify-center">
-                        <span className="w-12 h-12 rounded-full border border-[color:var(--brass-light)]/80 bg-[color:var(--ink)]/40 flex items-center justify-center text-[color:var(--brass-light)]">▶</span>
-                      </span>
-                    </>
-                  ) : (
-                    <img src={m.src} alt={m.alt} loading="lazy" className="w-full h-full object-cover zoom" />
-                  )}
+                <Collage items={g.collage} priority={gi < 3} />
+                <div className="p-4">
+                  {g.location && <p className="overline text-[10px]">{g.location}</p>}
+                  {g.project && <p className="font-display text-xl mt-1">{g.project}</p>}
+                  {g.desc && <p className="mt-2 text-sm text-ink-soft/75">{g.desc}</p>}
+                  <p className="mt-3 text-[11px] tracking-[0.2em] uppercase text-[color:var(--brass)]">
+                    {g.items.length} {g.items.length === 1 ? "frame" : "frames"}
+                  </p>
                 </div>
-                {m.project && (
-                  <div className="p-4">
-                    <p className="overline text-[10px]">{m.location}</p>
-                    <p className="font-display text-lg mt-1">{m.project}</p>
-                  </div>
-                )}
               </button>
             ))}
           </div>
-          {visible < items.length && (
-            <div className="mt-12 text-center text-ink-soft/60 text-sm tracking-[0.2em] uppercase">Loading more…</div>
+          {visible < groups.length && (
+            <div className="mt-12 text-center text-ink-soft/60 text-sm tracking-[0.2em] uppercase">Scroll for more…</div>
           )}
         </div>
       </section>
 
-      <Lightbox items={shown} openIndex={lightboxIdx} onClose={() => setLightboxIdx(null)} />
+      <Lightbox
+        items={lightbox?.items ?? []}
+        openIndex={lightbox ? lightbox.index : null}
+        onClose={() => setLightbox(null)}
+      />
     </PageShell>
   );
 }

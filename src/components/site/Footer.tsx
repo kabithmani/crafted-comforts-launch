@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Merkaba } from "./Merkaba";
 import { SITE, telHref } from "@/lib/site-config";
 
-export function Footer() {
+export function Footer({ disclaimer = false }: { disclaimer?: boolean }) {
   return (
     <footer className="relative bg-ink text-ivory overflow-hidden">
       <div
@@ -48,6 +48,14 @@ export function Footer() {
       </div>
 
       <div className="relative border-t border-ivory/10">
+        {disclaimer && (
+          <p
+            className="max-w-[1200px] mx-auto px-5 md:px-8 text-center font-body font-light text-[12px] text-[color:var(--brass)]"
+            style={{ marginTop: 20, marginBottom: 12 }}
+          >
+            All images are from completed Crafted Comforts projects. Images displayed at representative quality.
+          </p>
+        )}
         <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-6 text-xs text-ivory/55 flex flex-wrap justify-between gap-3">
           <span>© {new Date().getFullYear()} Crafted Comforts · Spaces to Sanctuaries</span>
           <span>Bengaluru · Goa · Mumbai · Kolkata · Mysore · Kochi</span>
