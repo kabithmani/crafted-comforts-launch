@@ -107,7 +107,7 @@ function AdminPage() {
         </p>
         <button
           onClick={() => void supabase.auth.signOut()}
-          className="btn-outline mt-7"
+          className="btn-outline-ink mt-7"
         >
           Sign out
         </button>
@@ -257,7 +257,7 @@ function AdminPage() {
               <button onClick={() => void saveDraft()} disabled={busy} className="btn-brass disabled:opacity-60">
                 {busy ? "Saving…" : draft.id ? "Save changes" : "Create project"}
               </button>
-              <button onClick={() => setDraft(null)} className="btn-outline">Close</button>
+              <button onClick={() => setDraft(null)} className="btn-outline-ink">Close</button>
             </div>
 
             {activeProject ? (
