@@ -292,3 +292,14 @@
 
 /* Sticky mobile bar safe area */
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Collage placeholder — a quiet brass wash while a frame decodes (never a spinner) */
+@keyframes ccShimmer {
+  0%   { opacity: 0.35; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 0.35; }
+}
+.collage-shimmer { animation: ccShimmer 1800ms ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .collage-shimmer { animation: none !important; }
+}
