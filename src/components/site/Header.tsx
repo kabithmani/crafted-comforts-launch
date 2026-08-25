@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Merkaba } from "./Merkaba";
+import { Logo } from "./Logo";
 import { waPrefill } from "@/lib/site-config";
 import { trackBookCTA, trackWhatsApp } from "@/lib/analytics";
 
@@ -38,17 +38,8 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
       style={{ transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
     >
       <div className="max-w-[1200px] mx-auto px-5 md:px-8 h-[72px] md:h-[88px] flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3" aria-label="Crafted Comforts home">
-          <span className={showSolid ? "text-[color:var(--brass)]" : "text-ivory"}>
-            <Merkaba size={26} />
-          </span>
-          <span
-            className={`font-body text-[13px] tracking-[0.28em] uppercase ${
-              showSolid ? "text-ink" : "text-ivory"
-            }`}
-          >
-            Crafted Comforts
-          </span>
+        <Link to="/" aria-label="Crafted Comforts — Spaces to Sanctuaries, home">
+          <Logo tone={showSolid ? "ink" : "ivory"} size={32} />
         </Link>
 
         <nav className="hidden md:flex items-center gap-9">
