@@ -1,10 +1,11 @@
 interface Props { size?: number; className?: string; strokeWidth?: number; }
 
 /**
- * Brand mark — star tetrahedron (merkaba) drawn as a wireframe: two
- * interlocking triangles plus the interior edges of the front tetrahedron.
+ * Brand mark — the Crafted Comforts merkaba: two interlocking equilateral
+ * triangles (star tetrahedron) with the front tetrahedron's interior edges
+ * drawn in, exactly as in the brand artwork. Hairline weight, currentColor.
  */
-export function Merkaba({ size = 28, className = "", strokeWidth = 1.4 }: Props) {
+export function Merkaba({ size = 28, className = "", strokeWidth = 1.1 }: Props) {
   return (
     <svg
       width={size}
@@ -15,17 +16,18 @@ export function Merkaba({ size = 28, className = "", strokeWidth = 1.4 }: Props)
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
+      vectorEffect="non-scaling-stroke"
       className={className}
       aria-hidden
     >
       {/* upward tetrahedron */}
-      <polygon points="50,6 88.1,72 11.9,72" />
+      <polygon points="50,2 91.15,71.9 8.85,71.9" />
       {/* downward tetrahedron */}
-      <polygon points="50,94 11.9,28 88.1,28" />
-      {/* interior edges — gives the mark its depth */}
-      <path d="M24.6 50 H75.4" />
-      <path d="M24.6 50 L50 72 L75.4 50" />
-      <path d="M50 72 V94" />
+      <polygon points="50,98 8.85,26.7 91.15,26.7" />
+      {/* interior edges of the front tetrahedron — the mark's depth */}
+      <path d="M30.8 39.9 H69.2" />
+      <path d="M30.8 39.9 L50 52.7 L69.2 39.9" />
+      <path d="M50 52.7 V98" />
     </svg>
   );
 }

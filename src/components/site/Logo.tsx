@@ -23,7 +23,7 @@ export function Logo({
       </span>
       <span className="flex flex-col leading-none">
         <span
-          className={`font-body text-[13px] md:text-[14px] tracking-[0.3em] uppercase ${
+          className={`font-display text-[19px] md:text-[21px] tracking-[0.06em] ${
             dark ? "text-ivory" : "text-ink"
           }`}
         >
@@ -31,7 +31,7 @@ export function Logo({
         </span>
         {showTagline && (
           <span
-            className={`font-display italic text-[10px] md:text-[11px] tracking-[0.16em] mt-[5px] ${
+            className={`font-body font-light text-[10px] md:text-[11px] tracking-[0.14em] mt-[6px] ${
               dark ? "text-[color:var(--brass-light)]" : "text-[color:var(--brass)]"
             }`}
           >
@@ -39,6 +39,7 @@ export function Logo({
           </span>
         )}
       </span>
+
     </span>
   );
 }
