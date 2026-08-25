@@ -59,12 +59,13 @@ function spread(items: MediaItem[], n: number) {
 
 function buildGroups(base: MediaItem[]): ProjectGroup[] {
   const map = new Map<string, ProjectGroup>();
+  const loose: MediaItem[] = [];
   for (const m of base) {
-    const key = m.project ?? m.src;
-    let g = map.get(key);
+    if (!m.project) { loose.push(m); continue; }
+    let g = map.get(m.project);
     if (!g) {
       g = {
-        key,
+        key: m.project,
         project: m.project,
         location: m.location,
         desc: m.desc,
@@ -72,11 +73,32 @@ function buildGroups(base: MediaItem[]): ProjectGroup[] {
         items: [],
         collage: [],
       };
-      map.set(key, g);
+      map.set(m.project, g);
     }
     g.items.push(m);
   }
-  const groups = [...map.values()];
+
+  // Fold single-frame projects and unnamed media into 4-up "selected works" collages.
+  const groups: ProjectGroup[] = [];
+  const leftovers: MediaItem[] = [...loose];
+  for (const g of map.values()) {
+    if (g.items.length < 3) leftovers.push(...g.items);
+    else groups.push(g);
+  }
+  for (let i = 0; i < leftovers.length; i += 4) {
+    const chunk = leftovers.slice(i, i + 4);
+    if (!chunk.length) break;
+    groups.push({
+      key: `selected-${chunk[0].src}`,
+      project: "Selected Works",
+      location: chunk[0].location,
+      desc: "A set of details and finishes from completed Crafted Comforts projects.",
+      category: chunk[0].category,
+      items: chunk,
+      collage: [],
+    });
+  }
+
   for (const g of groups) {
     const images = g.items.filter((i) => i.type === "image");
     const pool = images.length >= 3 ? images : g.items;
