@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Crafted Comforts — Luxury Interiors, Designed & Built In-House | Bengaluru" },
-      { name: "description", content: "Crafted Comforts designs, manufactures, renovates and styles luxury interiors in Bengaluru — end-to-end, in-house, with factory-direct value. Complete interiors from ₹15 lakhs." },
+      { name: "description", content: "Crafted Comforts designs, manufactures, renovates and styles luxury interiors in Bengaluru — end-to-end, in-house, with factory-direct value. Complete interiors from ₹25 lakhs." },
       { property: "og:title", content: "Crafted Comforts — Spaces to Sanctuaries" },
       { property: "og:description", content: "Luxury interior design-and-build in Bengaluru — end-to-end in-house, from sketch to soft furnishing." },
       { property: "og:url", content: "/" },
@@ -41,13 +41,11 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const FLAGSHIP = ["Uniqlo", "Godrej Script", "JSW Paints", "Zimson", "Neeru's", "Rareism"];
-
 const PILLARS = [
-  { t: "End-to-end, in-house.", b: "Design, manufacture, renovate, execute and style under one roof. No handoffs, no middleman markups — one accountable team from the first sketch to the final cushion." },
+  { t: "End-to-end, in-house.", b: "Design, manufacture, renovate, execute and style under one roof. No handoffs, no middleman markups — one accountable team, one fixed price and one fixed handover date, from the first sketch to the final cushion." },
   { t: "Factory-direct value.", b: "Nine factories across Bengaluru, Pune and Goa mean 15–20% more of your budget goes into materials and finishing — not into margins. You feel the difference in every surface." },
   { t: "Soft furnishing is our signature.", b: "The layer most firms outsource, we manufacture ourselves — drapery, upholstery and textiles tuned to each room's light, scale and mood." },
-  { t: "Fifteen years, fifty-plus spaces.", b: "Three founders with 25–30 years' experience each, across residential, hospitality and commercial work in six cities." },
+  { t: "Twenty years, 500+ spaces.", b: "Three founders with 25–30 years' experience each, across residential, hospitality and commercial work in six cities." },
 ];
 
 const SERVICES = [
@@ -59,10 +57,10 @@ const SERVICES = [
 ];
 
 const PROCESS = [
-  { n: 1, t: "Consultation", b: "Free and no-obligation; we understand your vision, space and budget." },
-  { n: 2, t: "Design proposal", b: "Tailored concepts, materials and a clear scope." },
+  { n: 1, t: "Consultation", b: "Free and no-obligation; we understand your vision, space and budget — and audit any quote you already have." },
+  { n: 2, t: "Design proposal", b: "Choose your designer and style; tailored concepts, materials, a clear scope and a fixed price." },
   { n: 3, t: "In-house manufacturing", b: "Built in our own nine factories." },
-  { n: 4, t: "Execution & supervision", b: "One team manages the full build to handover." },
+  { n: 4, t: "Execution & supervision", b: "One team manages the full build to a fixed handover date." },
   { n: 5, t: "Styling & handover", b: "Soft furnishing and finishing; we hand over a finished home." },
 ];
 
@@ -73,7 +71,7 @@ const TESTIMONIALS = [
 ];
 
 const FAQS = [
-  { q: "What do projects start at?", a: "Complete interiors start at ₹15 lakhs — covering both hard and soft furnishing, manufactured in-house." },
+  { q: "What do projects start at?", a: "Complete interiors start at ₹25 lakhs — covering both hard and soft furnishing, manufactured in-house, at a fixed price agreed before we begin." },
   { q: "Which cities do you work in?", a: "Bengaluru is home; we have delivered across Goa, Mumbai, Kolkata, Mysore and Kochi." },
   { q: "Can I visit the factory?", a: "Yes — and we encourage it. Seeing your home being made is the best reassurance we can offer." },
   { q: "What makes you different from other interior firms?", a: "We don't outsource. Design, manufacturing, execution and styling are all in-house, so 15–20% more of your budget reaches materials and finishing." },
@@ -83,7 +81,7 @@ const FAQS = [
 
 function Index() {
   const featured = media.filter((m) => m.featured).slice(0, 6);
-  const softFurnishingImg = media.find((m) => m.project === "Kailsha Residence" && m.type === "image")?.src
+  const softFurnishingImg = media.find((m) => m.project === "Courtyard Residence" && m.type === "image")?.src
     ?? "/media/hero/luxurious-modern-kitchen-contemporary-interior-decor-furnishings-black-white-interior-design.jpg";
 
   return (
@@ -104,7 +102,7 @@ function Index() {
             We turn spaces into sanctuaries.
           </h1>
           <p className="mt-6 max-w-2xl text-ivory/85 text-[15px] md:text-[17px] leading-relaxed">
-            Designed, manufactured, renovated and styled end-to-end by our own studios and factories — so every detail, down to the soft furnishing, is ours to perfect.
+            Designed, manufactured, renovated and styled end-to-end by our own studios and factories — at a fixed price, handed over on a fixed date.
           </p>
           <div className="mt-9 flex flex-wrap gap-3 items-center">
             <Link to="/" hash="lead-form" onClick={() => trackBookCTA("hero")} className="btn-brass">Book a Consultation</Link>
@@ -122,7 +120,7 @@ function Index() {
       <section className="bg-[color:var(--ink)] text-ivory py-20 md:py-28">
         <div className="max-w-[1200px] mx-auto px-5 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 text-center">
           {[
-            { v: 15, s: "+", label: "Years of craft" },
+            { v: 20, s: "+", label: "Years of craft" },
             { v: 9, s: "", label: "In-house factories" },
             { v: 500, s: "+", label: "Projects delivered" },
             { v: 6, s: "", label: "Cities" },
@@ -137,20 +135,15 @@ function Index() {
         </div>
       </section>
 
-      {/* FLAGSHIP STRIP */}
+      {/* CRAFTSMANSHIP STRIP — no client or brand names, by policy */}
       <section className="bg-[color:var(--ivory)] py-16 md:py-20">
         <div className="max-w-[1200px] mx-auto px-5 md:px-8 text-center">
-          <Reveal><p className="overline">Trusted to craft spaces for</p></Reveal>
+          <Reveal><p className="overline">The craftsmanship behind premium brands</p></Reveal>
           <Reveal hairline className="hairline mt-7 mx-auto max-w-3xl" />
           <Reveal delay={120}>
-            <div className="mt-7 flex flex-wrap justify-center items-center gap-x-7 gap-y-3 text-ink-soft font-body uppercase tracking-[0.22em] text-[12px] md:text-[13px]">
-              {FLAGSHIP.map((b, i) => (
-                <span key={b} className="flex items-center gap-x-7">
-                  {b}
-                  {i < FLAGSHIP.length - 1 && <span className="hidden md:inline-block w-px h-3 bg-[color:var(--brass)]/60" />}
-                </span>
-              ))}
-            </div>
+            <p className="mt-7 mx-auto max-w-2xl font-display text-[22px] md:text-[28px] leading-snug text-ink-soft">
+              Our factories also make for leading retail and lifestyle brands. You get the same craftsmanship — without the showroom markup.
+            </p>
           </Reveal>
           <Reveal hairline className="hairline mt-7 mx-auto max-w-3xl" />
         </div>
@@ -217,7 +210,7 @@ function Index() {
           </div>
           <Reveal delay={200}>
             <p className="font-display italic text-2xl md:text-3xl text-center mt-16 max-w-3xl mx-auto text-ink-soft">
-              Complete interiors from ₹15 lakhs — covering both hard and soft furnishing.
+              Complete interiors from ₹25 lakhs — covering both hard and soft furnishing.
             </p>
           </Reveal>
         </div>

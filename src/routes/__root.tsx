@@ -20,7 +20,7 @@ function NotFoundComponent() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-[color:var(--ink)] text-[color:var(--ivory)] px-6 text-center">
       <span className="text-[color:var(--brass)] mb-6"><Merkaba size={56} /></span>
       <h1 className="font-display text-5xl md:text-6xl">This room doesn't exist.</h1>
-      <p className="mt-4 text-ivory/70">But fifty others do.</p>
+      <p className="mt-4 text-ivory/70">But five hundred others do.</p>
       <div className="mt-8 flex flex-wrap gap-3 justify-center">
         <Link to="/portfolio" className="btn-brass">View Portfolio</Link>
         <Link to="/" className="btn-outline-ivory">Back Home</Link>
@@ -73,7 +73,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Crafted Comforts — Luxury Interiors, Designed & Built In-House | Bengaluru" },
-      { name: "description", content: "Crafted Comforts designs, manufactures, renovates and styles luxury interiors in Bengaluru — end-to-end, in-house, with factory-direct value. Complete interiors from ₹15 lakhs." },
+      { name: "description", content: "Crafted Comforts designs, manufactures, renovates and styles luxury interiors in Bengaluru — end-to-end, in-house, with factory-direct value. Complete interiors from ₹25 lakhs." },
       { name: "author", content: "Crafted Comforts" },
       { property: "og:site_name", content: "Crafted Comforts" },
       { property: "og:title", content: "Crafted Comforts — Luxury Interiors, Designed & Built In-House" },
