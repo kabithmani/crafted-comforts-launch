@@ -20,7 +20,7 @@ function NotFoundComponent() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-[color:var(--ink)] text-[color:var(--ivory)] px-6 text-center">
       <span className="text-[color:var(--brass)] mb-6"><Merkaba size={56} /></span>
       <h1 className="font-display text-5xl md:text-6xl">This room doesn't exist.</h1>
-      <p className="mt-4 text-ivory/70">But fifty others do.</p>
+      <p className="mt-4 text-ivory/70">But five hundred others do.</p>
       <div className="mt-8 flex flex-wrap gap-3 justify-center">
         <Link to="/portfolio" className="btn-brass">View Portfolio</Link>
         <Link to="/" className="btn-outline-ivory">Back Home</Link>

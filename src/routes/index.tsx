@@ -45,7 +45,7 @@ const PILLARS = [
   { t: "End-to-end, in-house.", b: "Design, manufacture, renovate, execute and style under one roof. No handoffs, no middleman markups — one accountable team, one fixed price and one fixed handover date, from the first sketch to the final cushion." },
   { t: "Factory-direct value.", b: "Nine factories across Bengaluru, Pune and Goa mean 15–20% more of your budget goes into materials and finishing — not into margins. You feel the difference in every surface." },
   { t: "Soft furnishing is our signature.", b: "The layer most firms outsource, we manufacture ourselves — drapery, upholstery and textiles tuned to each room's light, scale and mood." },
-  { t: "Fifteen years, fifty-plus spaces.", b: "Three founders with 25–30 years' experience each, across residential, hospitality and commercial work in six cities." },
+  { t: "Twenty years, 500+ spaces.", b: "Three founders with 25–30 years' experience each, across residential, hospitality and commercial work in six cities." },
 ];
 
 const SERVICES = [
@@ -120,7 +120,7 @@ function Index() {
       <section className="bg-[color:var(--ink)] text-ivory py-20 md:py-28">
         <div className="max-w-[1200px] mx-auto px-5 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 text-center">
           {[
-            { v: 15, s: "+", label: "Years of craft" },
+            { v: 20, s: "+", label: "Years of craft" },
             { v: 9, s: "", label: "In-house factories" },
             { v: 500, s: "+", label: "Projects delivered" },
             { v: 6, s: "", label: "Cities" },

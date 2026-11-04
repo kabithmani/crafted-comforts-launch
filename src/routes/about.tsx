@@ -11,10 +11,10 @@ const CITIES = ["Bengaluru", "Goa", "Mumbai", "Kolkata", "Mysore", "Kochi"];
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About Crafted Comforts — 15+ Years of In-House Luxury Interiors" },
-      { name: "description", content: "Three founders, 25–30 years' experience each. Nine in-house factories. Fifty-plus sanctuaries across six cities — the story of Crafted Comforts." },
+      { title: "About Crafted Comforts — 20+ Years of In-House Luxury Interiors" },
+      { name: "description", content: "Three founders, 25–30 years' experience each. Nine in-house factories. 500+ sanctuaries across six cities — the story of Crafted Comforts." },
       { property: "og:title", content: "About Crafted Comforts" },
-      { property: "og:description", content: "Fifteen years of building sanctuaries — in-house, end-to-end." },
+      { property: "og:description", content: "Twenty years of building sanctuaries — in-house, end-to-end." },
       { property: "og:url", content: "/about" },
       { property: "og:type", content: "article" },
     ],
@@ -33,7 +33,7 @@ function About() {
           <div className="max-w-[1200px] mx-auto w-full px-5 md:px-8 pb-16 md:pb-24 text-ivory hero-rise">
             <p className="overline text-[color:var(--brass-light)]">About</p>
             <h1 className="font-display text-5xl md:text-7xl mt-4 max-w-3xl leading-[1.03]">
-              Fifteen years of building sanctuaries.
+              Twenty years of building sanctuaries.
             </h1>
           </div>
         </div>
@@ -49,7 +49,7 @@ function About() {
           <Reveal delay={120}>
             <div className="mt-12 space-y-7 text-[16px] md:text-[17px] leading-[1.8] text-ink-soft">
               <p>
-                Crafted Comforts was founded by three partners with 25–30 years each across construction and real estate, manufacturing, and interiors and execution, and is led day-to-day by our CEO. For over fifteen years we have designed and built interiors the hard way — in-house — across Bengaluru, Goa, Mumbai, Kolkata, Mysore and Kochi, for homes, hotels and workplaces alike.
+                Crafted Comforts was founded by three partners with 25–30 years each across construction and real estate, manufacturing, and interiors and execution, and is led day-to-day by our CEO. For over twenty years we have designed and built interiors the hard way — in-house — across Bengaluru, Goa, Mumbai, Kolkata, Mysore and Kochi, for homes, hotels and workplaces alike.
               </p>
               <p>
                 We don't hand your project to subcontractors and hope. We design it, manufacture it in our own nine factories, build it, and style it down to the last cushion. That is why the result feels considered — and why more of your budget reaches the parts you can see and touch.
