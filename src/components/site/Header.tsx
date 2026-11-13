@@ -30,9 +30,13 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 safe-top transition-all duration-500 ${
         showSolid
-          ? "bg-paper/95 backdrop-blur border-b border-[color:var(--brass)]/35"
+          ? `bg-paper/95 border-b border-[color:var(--brass)]/35 ${
+              // backdrop-filter makes the header the containing block for the fixed
+              // mobile menu, trapping it in the 72px bar — so drop the blur while it is open.
+              open ? "" : "backdrop-blur"
+            }`
           : "bg-transparent"
       }`}
       style={{ transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
@@ -82,7 +86,7 @@ export function Header({ transparent = false }: { transparent?: boolean }) {
       </div>
 
       <div
-        className={`md:hidden fixed inset-0 bg-ink text-ivory transition-opacity duration-300 ${
+        className={`md:hidden fixed inset-0 bg-ink text-ivory safe-inset overscroll-contain transition-opacity duration-300 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden={!open}

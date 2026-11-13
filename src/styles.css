@@ -4,6 +4,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Tailwind's hover: only checks (hover: hover). Also require a precise pointer so a tap
+   on a phone never leaves a hover style stuck on (some Android devices claim hover). */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 /*
  * Crafted Comforts — quiet-luxury editorial design system.
  * Brand tokens, typography, animations.
@@ -157,6 +167,28 @@
     border-color: var(--color-border);
   }
 
+  html {
+    /* No grey/blue flash on tap; buttons get their own :active feedback below. */
+    -webkit-tap-highlight-color: transparent;
+    /* No font inflation when the phone rotates to landscape. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* A scrolling document: keep pull-to-refresh, but stop sideways overscroll
+       (rubber-banding the page left/right or triggering swipe-back by accident). */
+    overscroll-behavior-x: none;
+  }
+
+  /* Remove the ~300ms double-tap-zoom wait on controls (pinch-zoom still works). */
+  a, button, [role="button"], summary, label, select, input[type="submit"] {
+    touch-action: manipulation;
+  }
+
+  /* Long-press on a button should not select its label. Content links stay selectable. */
+  button, [role="button"], .btn-brass, .btn-outline-ivory, .btn-outline-ink {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -200,7 +232,6 @@
   transition: background 250ms cubic-bezier(0.22,1,0.36,1), color 250ms, transform 300ms;
   cursor: pointer;
 }
-.btn-brass:hover { background: var(--brass-deep); }
 .btn-outline-ivory {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 16px 36px;
@@ -211,7 +242,6 @@
   transition: background 250ms cubic-bezier(0.22,1,0.36,1), color 250ms;
   cursor: pointer;
 }
-.btn-outline-ivory:hover { background: var(--ivory); color: var(--ink); }
 .btn-outline-ink {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 16px 36px;
@@ -222,7 +252,22 @@
   transition: background 250ms cubic-bezier(0.22,1,0.36,1), color 250ms;
   cursor: pointer;
 }
-.btn-outline-ink:hover { background: var(--ink); color: var(--ivory); }
+
+/* Hover only for a real mouse/trackpad — on touch a tapped button would stay "hovered". */
+@media (hover: hover) and (pointer: fine) {
+  .btn-brass:hover { background: var(--brass-deep); }
+  .btn-outline-ivory:hover { background: var(--ivory); color: var(--ink); }
+  .btn-outline-ink:hover { background: var(--ink); color: var(--ivory); }
+}
+
+/* Press feedback the instant a finger lands (works for mouse too). */
+.btn-brass:active, .btn-outline-ivory:active, .btn-outline-ink:active {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+}
+.btn-brass:active { background: var(--brass-deep); }
+.btn-outline-ivory:active { background: rgba(246,241,230,0.14); }
+.btn-outline-ink:active { background: rgba(27,26,23,0.08); }
 
 .story-underline {
   position: relative; display: inline-block;
@@ -232,7 +277,9 @@
   background: var(--brass); transform: scaleX(0); transform-origin: right;
   transition: transform 350ms cubic-bezier(0.22,1,0.36,1);
 }
-.story-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+@media (hover: hover) and (pointer: fine) {
+  .story-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+}
 
 /* ── Scroll-reveal ────────────────────────────────────────────── */
 .reveal {
@@ -284,14 +331,47 @@
 .cc-input {
   width: 100%; padding: 14px 14px; background: transparent;
   border: 1px solid rgba(27,26,23,0.18); border-radius: 2px;
-  font-family: var(--font-body); font-size: 15px; color: var(--ink);
+  /* 16px minimum: iOS Safari zooms the page into any input under 16px and never zooms back. */
+  font-family: var(--font-body); font-size: 16px; color: var(--ink);
   transition: border-color 250ms;
 }
 .cc-input:focus { outline: none; border-color: var(--brass); }
 .cc-label { display: block; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 8px; font-weight: 500; }
 
-/* Sticky mobile bar safe area */
-.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+/* Any touch device: never let a form field drop under 16px (stops iOS focus-zoom,
+   including iPads at md+ widths where shadcn inputs switch to text-sm). Unlayered so it
+   beats Tailwind utilities. */
+@media (pointer: coarse) {
+  input, textarea, select { font-size: max(16px, 1em); }
+}
+
+/* ── Safe areas (needs viewport-fit=cover in __root.tsx, else env() is 0) ── */
+/* Sticky mobile bar: clear the home indicator. */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+/* Fixed header: clear the notch / status bar when the page paints under it. */
+.safe-top { padding-top: env(safe-area-inset-top, 0px); }
+/* Full-screen overlays (mobile menu, lightbox): keep controls clear on every edge. */
+.safe-inset {
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+           env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+/* Page containers (all use "mx-auto px-5 md:px-8"): in landscape on a notched phone,
+   keep text clear of the notch while section backgrounds still run edge to edge. */
+.mx-auto.px-5 {
+  padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 768px) {
+  .mx-auto.px-5.md\:px-8 {
+    padding-left: max(2rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2rem, env(safe-area-inset-right, 0px));
+  }
+}
+/* Cookie notice sits above the sticky bar on phones; lift it by the home-indicator inset too. */
+.cookie-safe { bottom: calc(5rem + env(safe-area-inset-bottom, 0px)); }
+@media (min-width: 768px) {
+  .cookie-safe { bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px)); }
+}
 
 /* Collage placeholder — a quiet brass wash while a frame decodes (never a spinner) */
 @keyframes ccShimmer {
