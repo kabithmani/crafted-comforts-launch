@@ -71,7 +71,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      // viewport-fit=cover lets the page paint under the notch; env(safe-area-inset-*) in styles.css pads content back out.
+      // Never add user-scalable=no or maximum-scale=1 (blocks pinch-zoom; input zoom is fixed with 16px inputs instead).
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Crafted Comforts — Luxury Interiors, Designed & Built In-House | Bengaluru" },
       { name: "description", content: "Crafted Comforts designs, manufactures, renovates and styles luxury interiors in Bengaluru — end-to-end, in-house, with factory-direct value. Complete interiors from ₹25 lakhs." },
       { name: "author", content: "Crafted Comforts" },

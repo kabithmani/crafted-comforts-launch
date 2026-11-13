@@ -402,7 +402,7 @@ function ImageManager({
           <div key={img.id} className="border border-[color:var(--brass)]/20 p-2">
             <img src={img.url} alt={img.alt} className="w-full aspect-square object-cover" />
             <input
-              className="cc-input mt-2 !py-2 !text-[12px]"
+              className="cc-input mt-2 !py-2 !text-base md:!text-[12px]"
               defaultValue={img.alt}
               aria-label="Image description"
               onBlur={(e) => void saveAlt(img, e.target.value)}

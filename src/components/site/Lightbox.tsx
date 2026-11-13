@@ -65,7 +65,7 @@ export function Lightbox({
   return (
     <div
       role="dialog" aria-modal="true" aria-label={it?.alt}
-      className="fixed inset-0 z-[100] bg-[color:var(--ink)]/96 backdrop-blur-md flex flex-col overscroll-contain"
+      className="fixed inset-0 z-[100] bg-[color:var(--ink)]/96 backdrop-blur-md flex flex-col overscroll-contain safe-inset"
       onClick={onClose}
       onTouchStart={(e) => {
         const t = e.touches[0];
@@ -98,7 +98,7 @@ export function Lightbox({
 
       {/* stage */}
       <div
-        className="flex-1 min-h-0 flex items-center justify-center px-2 md:px-16 relative"
+        className="flex-1 min-h-0 flex items-center justify-center px-2 md:px-16 relative touch-pan-y touch-pinch-zoom"
         onClick={(e) => e.stopPropagation()}
       >
         <NavArrow side="left" onClick={() => go(i - 1)} />
@@ -138,7 +138,7 @@ export function Lightbox({
         <div
           ref={stripRef}
           onClick={(e) => e.stopPropagation()}
-          className="shrink-0 flex gap-2 overflow-x-auto px-4 md:px-8 py-4 md:py-5 justify-start md:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="shrink-0 flex gap-2 overflow-x-auto overscroll-x-contain touch-pan-x px-4 md:px-8 py-4 md:py-5 justify-start md:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {items.map((thumb, n) => (
             <button
